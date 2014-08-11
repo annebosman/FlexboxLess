@@ -1,0 +1,127 @@
+// =========== Flexbox-Mixins
+// Read more and see examples at css-tricks.com/snippets/css/a-guide-to-flexbox/
+
+.mixin-display-flex() {
+    display: -webkit-box;                   //iOS6, Safari 3.1-6
+    display: -ms-flexbox;                   //IE10
+    display: -webkit-flex;                  //android 4.3, IE mobile, Safari
+    display: flex;
+}
+
+.mixin-flex(@value) {                       // none | [ <'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ] 
+                                            // flex-grow: <number>;     (default 0)
+                                            // flex-shrink: <number>    (default 1)
+                                            // flex-basis: <length> | auto
+
+    -webkit-box-flex: @value;               //iOS6, Safari 3.1-6
+    -webkit-flex:  @value;                  //android 4.3, IE mobile, Safari
+    -ms-flex:  @value;                      //IE10
+    flex:  @value;
+}
+// When using this and @value is (0 0 auto) add -webkit-box-flex: 0;
+// When using this and @value is (1 1 auto) add -webkit-box-flex: 1;
+
+.mixin-flex-wrap(@wrap) {                   // nowrap | wrap | wrap-reverse
+    flex-wrap: @wrap;
+    -ms-flex-wrap: @wrap;                   //IE10
+    -webkit-flex-wrap: @wrap;
+}
+
+.mixin-flex-direction(@direction) {         // row | row-reverse | column | column-reverse
+    -ms-flex-direction: @direction;         //IE10
+    -webkit-flex-direction: @direction;          //android 4.3, IE mobile, Safari
+    flex-direction: @direction;
+}
+
+.mixin-justify-content(@justify) {           // flex-start | flex-end | center | space-between | space-around
+    -webkit-box-pack: @justify;
+    -webkit-justify-content: @justify;      //android 4.3, Safari
+    -ms-justify-content: @justify;          //IE mobile
+    justify-content: @justify
+}
+
+.mixin-align-items(@align-item) {           // flex-start | flex-end | center | baseline | stretch 
+    -webkit-box-align: @align-item;         //android 4.2
+    -webkit-align-items: @align-item;       //android 4.3, Safari
+    -ms-flex-align: @align-item;            //IE10
+    -ms-align-items: @align-item;           //IE mobile
+    align-items: @align-item;
+}
+    
+.mixin-align-content(@align-content) {      // flex-start | flex-end | center | space-between | space-around | stretch
+    -webkit-align-content: @align-content;  //android 4.3, Safari
+    -ms-align-content: @align-content;      //IE mobile
+    align-content: @align-content;
+}
+
+.mixin-align-self(@align-self) {            // auto | flex-start | flex-end | center | baseline | stretch
+    -webkit-align-self: @align-self;        //android 4.3, Safari
+    -ms-align-self: @align-self;            //IE mobile
+    align-self: @align-self;
+}
+
+.mixin-order(@order) {                      // <number>
+    -webkit-box-ordinal-group: @order;      //iOS 6-, Safari 3.1-6 */
+    -ms-flex-order: @order;                 //IE10
+    -webkit-order: @order;                  //android 4.3, IE mobile, Safari
+    order: @order;
+}
+
+//Old webkit fixes for android until at least 4.2 
+.mixin-flex-direction(@direction) when (@direction = column) {
+    -webkit-box-orient: vertical;
+}
+.mixin-flex-direction(@direction) when (@direction = row) {
+    -webkit-box-orient: horizontal;
+}
+.mixin-flex-wrap(@wrap) when (@wrap = nowrap) {
+    -webkit-box-lines: single;
+}
+.mixin-flex-wrap(@wrap) when (@wrap = wrap) {
+    -webkit-box-lines: multiple;
+}
+
+//IE10 fixes
+.mixin-flex-wrap(@wrap) when (@wrap = nowrap) {
+    -ms-flex-wrap: none;
+}
+
+.mixin-justify-content(@justify) when (@justify = flex-start) {
+    -ms-flex-pack: start;
+}
+.mixin-justify-content(@justify) when (@justify = flex-end) {
+    -ms-flex-pack: end;
+}
+.mixin-justify-content(@justify) when (@justify = space-between) {
+    -ms-flex-pack: justify;
+}
+.mixin-justify-content(@justify) when (@justify = space-between) {
+    -ms-flex-pack: distribute;
+}
+
+.mixin-align-items(@align-item) when (@align-item = flex-start) {
+    -ms-flex-align: start;
+}
+.mixin-align-items(@align-item) when (@align-item = flex-end) {
+    -ms-flex-align: end;
+}
+.mixin-align-items(@align-item) when (@align-item = stretch) {
+    -ms-flex-align: stretch;
+}
+
+.mixin-align-content(@align-content) when (@align-content = flex-start) {
+    -ms-flex-line-pack: start;
+}
+.mixin-align-content(@align-content) when (@align-content = flex-end) {
+    -ms-flex-line-pack: end;
+}
+.mixin-align-content(@align-content) when (@align-content = stretch) {
+    -ms-flex-line-pack: stretch;
+}
+
+.mixin-align-self(@align-self) when (@align-self = flex-start) {
+    -ms-flex-item-align: start;
+}
+.mixin-align-self(@align-self) when (@align-self = flex-end) {
+    -ms-flex-item-align: end;
+}
