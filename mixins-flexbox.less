@@ -1,7 +1,4 @@
-//  Flexbox Less Mixins
-//  Made by Anne Bosman (Topicus Onderwijs B.V.)
-
-
+// =========== Flexbox-Mixins
 // Read more and see examples at css-tricks.com/snippets/css/a-guide-to-flexbox/
 
 .mixin-display-flex() {
@@ -11,117 +8,128 @@
     display: flex;
 }
 
-.mixin-flex(@value) {                       // none | [ <'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ] 
-                                            // flex-grow: <number>;     (default 0)
-                                            // flex-shrink: <number>    (default 1)
-                                            // flex-basis: <length> | auto
 
+/*
+   This is the shorthand for flex-grow, flex-shrink and flex-basis combined. This element always needs a parent with .mixin-display-flex.
+   Flex-grow: If all items have flex-grow set to 1, every child will set to an equal size inside the container. If you were to give one of the children a value of 2, that child would take up twice as much space as the others.
+   Flex-shrink: This defines the ability for a flex item to shrink if necessary.
+   Flex-basis: If set to 0, the extra space around content isn't factored in. If set to auto, the extra space is distributed based on it's flex-grow value
+
+   Default: 0 1 auto;
+   Use: none | [ <'flex-grow'> <'flex-shrink'> <'flex-basis'> ] 
+        flex-grow: <number>;     (default 0)
+        flex-shrink: <number>    (default 1)
+        flex-basis: <length> | auto
+   When using this and @value is (0 0 auto) add -webkit-box-flex: 0;
+   When using this and @value is (1 1 auto) add -webkit-box-flex: 1;
+*/
+.mixin-flex(@value) {
     -webkit-box-flex: @value;               //iOS6, Safari 3.1-6
     -webkit-flex:  @value;                  //android 4.3, IE mobile, Safari
     -ms-flex:  @value;                      //IE10
     flex:  @value;
 }
-// When using this and @value is (0 0 auto) add -webkit-box-flex: 0;
-// When using this and @value is (1 1 auto) add -webkit-box-flex: 1;
 
-.mixin-flex-wrap(@wrap) {                   // nowrap | wrap | wrap-reverse
+
+/* 
+   This establishes the main-axis, thus defining the direction flex items are placed in the flex container. 
+   Default: row from left to right
+   Use: row | row-reverse | column | column-reverse 
+*/
+.mixin-flex-direction(@direction) {
+    -ms-flex-direction: @direction;         //IE10
+    -webkit-flex-direction: @direction;     //android 4.3, IE mobile, Safari
+    flex-direction: @direction;
+}
+.mixin-flex-direction(@direction) when (@direction = column) { -webkit-box-orient: vertical; } //Old webkit fix for android until at least 4.2 
+.mixin-flex-direction(@direction) when (@direction = row) { -webkit-box-orient: horizontal; }//Old webkit fix for android until at least 4.2 
+
+
+/* 
+   By default, flex items will all try to fit onto one line. You can change that and allow the items to wrap as needed with this property.
+   Default: nowrap from left to right 
+   Use: nowrap | wrap | wrap-reverse
+*/
+.mixin-flex-wrap(@wrap) {
     flex-wrap: @wrap;
     -ms-flex-wrap: @wrap;                   //IE10
     -webkit-flex-wrap: @wrap;
 }
+.mixin-flex-wrap(@wrap) when (@wrap = nowrap) { -ms-flex-wrap: none; } // IE10 fix
+.mixin-flex-wrap(@wrap) when (@wrap = nowrap) { -webkit-box-lines: single; } //Old webkit fix for android until at least 4.2 
+.mixin-flex-wrap(@wrap) when (@wrap = wrap) { -webkit-box-lines: multiple; } //Old webkit fix for android until at least 4.2 
 
-.mixin-flex-direction(@direction) {         // row | row-reverse | column | column-reverse
-    -ms-flex-direction: @direction;         //IE10
-    -webkit-flex-direction: @direction;          //android 4.3, IE mobile, Safari
-    flex-direction: @direction;
-}
 
-.mixin-justify-content(@justify) {           // flex-start | flex-end | center | space-between | space-around
+/* 
+   This defines the alignment along the main axis. It helps distribute extra free space left over when either all the flex items on a line are inflexible, or are flexible but have reached their maximum size.
+   Default: nowrap from left to right 
+   Use: flex-start | flex-end | center | space-between | space-around
+*/
+.mixin-justify-content(@justify) {
     -webkit-box-pack: @justify;
     -webkit-justify-content: @justify;      //android 4.3, Safari
     -ms-justify-content: @justify;          //IE mobile
     justify-content: @justify
 }
+.mixin-justify-content(@justify) when (@justify = flex-start) { -ms-flex-pack: start; } // IE10 fix
+.mixin-justify-content(@justify) when (@justify = flex-end) { -ms-flex-pack: end; } // IE10 fix
+.mixin-justify-content(@justify) when (@justify = space-between) { -ms-flex-pack: justify; } // IE10 fix
+.mixin-justify-content(@justify) when (@justify = space-around) {  -ms-flex-pack: distribute; } // IE10 fix
 
-.mixin-align-items(@align-item) {           // flex-start | flex-end | center | baseline | stretch 
+ 
+/* 
+   This defines the default behaviour for how flex items are laid out along the cross axis on the current line. Think of it as the justify-content version for the cross-axis (perpendicular to the main-axis).
+   Default: flex-start
+   Use: flex-start | flex-end | center | baseline | stretch
+*/
+.mixin-align-items(@align-item) {
     -webkit-box-align: @align-item;         //android 4.2
     -webkit-align-items: @align-item;       //android 4.3, Safari
     -ms-flex-align: @align-item;            //IE10
     -ms-align-items: @align-item;           //IE mobile
     align-items: @align-item;
 }
-    
-.mixin-align-content(@align-content) {      // flex-start | flex-end | center | space-between | space-around | stretch
+.mixin-align-items(@align-item) when (@align-item = flex-start) { -ms-flex-align: start; } // IE10 fix
+.mixin-align-items(@align-item) when (@align-item = flex-end) { -ms-flex-align: end; } // IE10 fix
+.mixin-align-items(@align-item) when (@align-item = stretch) {  -ms-flex-align: stretch; } // IE10 fix
+  
+
+/* 
+   This aligns a flex container's lines within when there is extra space in the cross-axis, similar to how justify-content aligns individual items within the main-axis.
+   Default: flex-start
+   Use: flex-start | flex-end | center | baseline | stretch
+*/
+.mixin-align-content(@align-content) {
     -webkit-align-content: @align-content;  //android 4.3, Safari
     -ms-align-content: @align-content;      //IE mobile
     align-content: @align-content;
 }
+.mixin-align-content(@align-content) when (@align-content = flex-start) { -ms-flex-line-pack: start; } // IE10 fix
+.mixin-align-content(@align-content) when (@align-content = flex-end) { -ms-flex-line-pack: end; } // IE10 fix
+.mixin-align-content(@align-content) when (@align-content = stretch) { -ms-flex-line-pack: stretch; } // IE10 fix
 
-.mixin-align-self(@align-self) {            // auto | flex-start | flex-end | center | baseline | stretch
+
+/* 
+   This allows the default alignment (or the one specified by align-items) to be overridden for individual flex items.
+   Default: flex-start
+   Use: flex-start | flex-end | center | baseline | stretch
+*/
+.mixin-align-self(@align-self) {
     -webkit-align-self: @align-self;        //android 4.3, Safari
     -ms-align-self: @align-self;            //IE mobile
     align-self: @align-self;
 }
+.mixin-align-self(@align-self) when (@align-self = flex-start) { -ms-flex-item-align: start; } // IE10 fix
+.mixin-align-self(@align-self) when (@align-self = flex-end) { -ms-flex-item-align: end; } // IE10 fix
 
-.mixin-order(@order) {                      // <number>
+
+/* 
+   Default: As found in html
+   Use: <number>
+*/
+.mixin-order(@order) {
     -webkit-box-ordinal-group: @order;      //iOS 6-, Safari 3.1-6 */
     -ms-flex-order: @order;                 //IE10
     -webkit-order: @order;                  //android 4.3, IE mobile, Safari
     order: @order;
-}
-
-//Old webkit fixes for android until at least 4.2 
-.mixin-flex-direction(@direction) when (@direction = column) {
-    -webkit-box-orient: vertical;
-}
-.mixin-flex-direction(@direction) when (@direction = row) {
-    -webkit-box-orient: horizontal;
-}
-.mixin-flex-wrap(@wrap) when (@wrap = nowrap) {
-    -webkit-box-lines: single;
-}
-.mixin-flex-wrap(@wrap) when (@wrap = wrap) {
-    -webkit-box-lines: multiple;
-}
-
-//IE10 fixes
-.mixin-flex-wrap(@wrap) when (@wrap = nowrap) {
-    -ms-flex-wrap: none;
-}
-
-.mixin-justify-content(@justify) when (@justify = flex-start) {
-    -ms-flex-pack: start;
-}
-.mixin-justify-content(@justify) when (@justify = flex-end) {
-    -ms-flex-pack: end;
-}
-.mixin-justify-content(@justify) when (@justify = space-between) {
-    -ms-flex-pack: justify;
-}
-
-.mixin-align-items(@align-item) when (@align-item = flex-start) {
-    -ms-flex-align: start;
-}
-.mixin-align-items(@align-item) when (@align-item = flex-end) {
-    -ms-flex-align: end;
-}
-.mixin-align-items(@align-item) when (@align-item = stretch) {
-    -ms-flex-align: stretch;
-}
-
-.mixin-align-content(@align-content) when (@align-content = flex-start) {
-    -ms-flex-line-pack: start;
-}
-.mixin-align-content(@align-content) when (@align-content = flex-end) {
-    -ms-flex-line-pack: end;
-}
-.mixin-align-content(@align-content) when (@align-content = stretch) {
-    -ms-flex-line-pack: stretch;
-}
-
-.mixin-align-self(@align-self) when (@align-self = flex-start) {
-    -ms-flex-item-align: start;
-}
-.mixin-align-self(@align-self) when (@align-self = flex-end) {
-    -ms-flex-item-align: end;
 }
