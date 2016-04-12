@@ -12,3 +12,5 @@ Less mixins that get's Flexboxes to work with:
 * Opera 12.1 +
 
 
+Want to start using Flexbox?
+Read more and see examples at css-tricks.com/snippets/css/a-guide-to-flexbox/
