@@ -13,4 +13,4 @@ Less mixins that get's Flexboxes to work with:
 
 
 Want to start using Flexbox?
-Read more and see examples at css-tricks.com/snippets/css/a-guide-to-flexbox/
+Read more and see examples at [css-tricks.com/snippets/css/a-guide-to-flexbox](http://css-tricks.com/snippets/css/a-guide-to-flexbox/)
