@@ -11,6 +11,9 @@ Less mixins that get's Flexboxes to work with:
 * Firefox 2 +
 * Opera 12.1 +
 
+_(last checked on 11-08-2016)_
+
+
 
 Want to start using Flexbox?
 Read more and see examples at [css-tricks.com/snippets/css/a-guide-to-flexbox](http://css-tricks.com/snippets/css/a-guide-to-flexbox/)
