@@ -11,7 +11,7 @@ Less mixins that get's Flexboxes to work with:
 * Firefox 2 +
 * Opera 12.1 +
 
-_(last checked on 11-08-2016)_
+_(last checked on 10-04-2017)_
 
 
 
